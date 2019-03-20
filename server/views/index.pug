@@ -1,11 +1,92 @@
 extends ./layouts/default
 block title
     title koa index
+    style.
+        .navbar{backrround:red}
 block content 
-    .container
+    include ./includes/header
+    .container-fluid
         .row
-            .col-md-8
-                h1 Hi #{you}
-                p this is #{me}
-            .col-md-4
-                p 测试pug模板引擎2
+            .slidebar.col-12.col-md-3.col-xl-2
+                .collapse.cat-links
+                    .slidebar-item.active
+                        a.slidebar-link(href='/') Links
+                        ul.nav.slidebar-inner
+                            li.active.slidebar-inner-active
+                                a(href='/') Link1
+                            li.slidebar-inner-active
+                                a(href='/') Link2
+            .content.col-12.col-md-9.col-xl-9.py-md-3.pl-md-5
+                .row
+                    .col-md-6
+                        .card
+                            img.card-img-top(data-video='https://v3.mukewang.com/shizhan/5a66fb16e420e560728b45fa/H.mp4',src='https://coding.imooc.com/static/module/class/content/img/178/section3-1.png')
+                        .card-body
+                            h4.card-title 这是电影标题
+                            p.card-desc 这是电影描述
+                        .card-footer
+                            small.text-muted 1天前更新
+                    .col-md-6
+                        .card
+                            img.card-img-top(data-video='https://v3.mukewang.com/shizhan/5a66fb16e420e560728b45fa/H.mp4',src='https://coding.imooc.com/static/module/class/content/img/178/section3-1.png')
+                        .card-body
+                            h4.card-title 这是电影标题
+                            p.card-desc 这是电影描述
+                        .card-footer
+                            small.text-muted 1天前更新
+                .row
+                    .col-md-6
+                        .card
+                            img.card-img-top(data-video='https://v3.mukewang.com/shizhan/5a66fb16e420e560728b45fa/H.mp4',src='https://coding.imooc.com/static/module/class/content/img/178/section3-1.png')
+                        .card-body
+                            h4.card-title 这是电影标题
+                            p.card-desc 这是电影描述
+                        .card-footer
+                            small.text-muted 1天前更新
+                    .col-md-6
+                        .card
+                            img.card-img-top(data-video='https://v3.mukewang.com/shizhan/5a66fb16e420e560728b45fa/H.mp4',src='https://coding.imooc.com/static/module/class/content/img/178/section3-1.png')
+                        .card-body
+                            h4.card-title 这是电影标题
+                            p.card-desc 这是电影描述
+                        .card-footer
+                            small.text-muted 1天前更新
+
+
+
+    #myModal.modal.fade.bd-example-modal-lg(role="dialog",aria-hidden="true",aria-labelledby="myLargeModalLabel",tabindex="-1")
+        .modal-dialog.modal-lg
+            #videoModal.modal-content
+    include ./includes/script
+    script.
+        var player = null;
+
+        $(function(){
+
+            $('#myModal').on('hidden.bs.modal',function(){
+                if(player && player.pause) player.pause()
+            })
+
+            $('.card-img-top').click(function(e){
+                var video = $(this).data('video')
+                var image = $(this).attr('src')
+                $('#myModal').modal('show')
+                if(!player) {
+                    player = new DPlayer({
+                        container:document.getElementById('videoModal'),
+                        screenshot:true,
+                        video:{
+                            url:video,
+                            pic:image,
+                            thumbnails:image
+                        }
+                    })
+                } else {
+                    player.switchVideo({
+                        url:video,
+                        pic:image,
+                        type:'auto'
+                    })
+                }
+            })
+        })
